@@ -54,7 +54,11 @@
             "dependsOn": [
                 "docker-build: debug"
             ],
-            "dockerRun": {},
+            "dockerRun": {
+                "env": {
+                    "ASPNETCORE_URLS": "http://+:80"
+                }
+            },
             "netCore": {
                 "appProject": "${workspaceFolder}/IdentityProvider/IdentityProvider.csproj",
                 "enableDebugging": true

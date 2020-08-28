@@ -2,13 +2,11 @@
 # with this command: docker build -t identityprovider -f .\IdentityProvider\Dockerfile .
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS base
-WORKDIR /app
 EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /src
 COPY ["IdentityProvider/IdentityProvider.csproj", "IdentityProvider/"]
-# COPY ["IdentityProvider.csproj", "IdentityProvider/"]
 RUN dotnet restore "IdentityProvider/IdentityProvider.csproj"
 COPY . .
 WORKDIR "/src/IdentityProvider"
