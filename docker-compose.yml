@@ -9,3 +9,11 @@ services:
       dockerfile: IdentityProvider/Dockerfile
     ports:
       - 5000:80
+
+  clientapp:
+    image: clientapp
+    build:
+      context: ./client-app
+      dockerfile: Dockerfile
+    ports:
+      - 5001:80
