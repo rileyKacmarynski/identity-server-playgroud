@@ -3,7 +3,7 @@ version: '3.4'
 
 services:
   identityprovider:
-    image: identityprovider
+    image: identityprovider:dev
     build:
       context: .
       dockerfile: IdentityProvider/Dockerfile
@@ -14,9 +14,22 @@ services:
       - ASPNETCORE_URLS=http://+:5000
     volumes:
       - ~/.vsdbg:/remote_debugger:rw
-    
+ 
+  api:
+    image: api:dev
+    build:
+      context: .
+      dockerfile: Api/Dockerfile
+    ports:
+      - 5002:5000
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5000
+    volumes:
+      - ~/.vsdbg:/remote_debugger:rw
+
   clientapp:
-    image: clientapp
+    image: clientapp:dev
     stdin_open: true
     build: 
       context: ./client-app
