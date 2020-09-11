@@ -26,6 +26,17 @@ namespace Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddAuthorization();
+
+            services.AddAuthentication("Bearer")
+                .AddIdentityServerAuthentication(options => 
+                {
+                    // replace with config value
+                    options.Authority = "http://localhost/5000";
+                    options.RequireHttpsMetadata = false;
+                    options.ApiName = "api1";
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
