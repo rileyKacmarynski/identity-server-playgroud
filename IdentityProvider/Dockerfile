@@ -16,6 +16,9 @@ FROM build AS publish
 RUN dotnet publish "IdentityProvider.csproj" -c Release -o /app/publish
 
 FROM base AS final
+ARG CMD_ARGS
+ENV ENV_CMD_ARGS=${CMD_ARGS}
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "IdentityProvider.dll"]
+# ENTRYPOINT ["dotnet", "IdentityProvider.dll", $CMD_ARGS]
+ENTRYPOINT dotnet IdentityProvider.dll ${ENV_CMD_ARGS}
