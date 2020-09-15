@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using IdentityServer4;
 using IdentityServer4.Models;
 using System.Collections.Generic;
 
@@ -16,17 +17,17 @@ namespace IdentityProvider
                 new IdentityResources.Profile(),
             };
 
-        public static IEnumerable<ApiScope> ApiScopes =>
-            new ApiScope[]
-            {
-                new ApiScope("scope1"),
-                new ApiScope("scope2"),
-            };
+        // public static IEnumerable<ApiScope> ApiScopes =>
+        //     new ApiScope[]
+        //     {
+        //         new ApiScope("scope1"),
+        //         new ApiScope("scope2"),
+        //     };
 
         public static IEnumerable<ApiResource> ApiResources =>
             new ApiResource[]
             {
-                new ApiResource("api1", "API 1")
+                new ApiResource("api", "API")
             };
 
         public static IEnumerable<Client> Clients =>
@@ -47,18 +48,37 @@ namespace IdentityProvider
                 // interactive client using code flow + pkce
                 new Client
                 {
-                    ClientId = "interactive",
-                    ClientSecrets = { new Secret("49C1A7E1-0C79-4A89-A3D6-A37998FB86B0".Sha256()) },
-
+                    ClientId = "client-app",
+                    ClientName = "Client App",
                     AllowedGrantTypes = GrantTypes.Code,
 
-                    RedirectUris = { "https://localhost:44300/signin-oidc" },
-                    FrontChannelLogoutUri = "https://localhost:44300/signout-oidc",
-                    PostLogoutRedirectUris = { "https://localhost:44300/signout-callback-oidc" },
+                    RequirePkce = true,
+                    RequireClientSecret = false,
+                    
+                    RedirectUris =           { "http://localhost:5001" },
+                    PostLogoutRedirectUris = { "http://localhost:5001" },
+                    AllowedCorsOrigins =     { "http://localhost:5001" },
 
-                    AllowOfflineAccess = true,
-                    AllowedScopes = { "openid", "profile", "scope2" }
-                },
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                    }
+                }
+                // new Client
+                // {
+                //     ClientId = "interactive",
+                //     ClientSecrets = { new Secret("49C1A7E1-0C79-4A89-A3D6-A37998FB86B0".Sha256()) },
+
+                //     AllowedGrantTypes = GrantTypes.Code,
+
+                //     RedirectUris = { "https://localhost:44300/signin-oidc" },
+                //     FrontChannelLogoutUri = "https://localhost:44300/signout-oidc",
+                //     PostLogoutRedirectUris = { "https://localhost:44300/signout-callback-oidc" },
+
+                //     AllowOfflineAccess = true,
+                //     AllowedScopes = { "openid", "profile", "scope2" }
+                // },
             };
     }
 }
