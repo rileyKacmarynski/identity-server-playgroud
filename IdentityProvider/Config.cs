@@ -55,7 +55,7 @@ namespace IdentityProvider
                     RequirePkce = true,
                     RequireClientSecret = false,
                     
-                    RedirectUris =           { "http://localhost:5001" },
+                    RedirectUris =           { "http://localhost:5001/callback" },
                     PostLogoutRedirectUris = { "http://localhost:5001" },
                     AllowedCorsOrigins =     { "http://localhost:5001" },
 

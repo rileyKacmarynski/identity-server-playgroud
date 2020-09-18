@@ -11,6 +11,7 @@ using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace IdentityProvider
 {
@@ -48,6 +49,7 @@ namespace IdentityProvider
                 if (seed)
                 {
                     Log.Information("Seeding database...");
+                    Task.Delay(TimeSpan.FromSeconds(5));    // give the db some time to spin up
                     var config = host.Services.GetRequiredService<IConfiguration>();
                     var connectionString = config.GetConnectionString("DefaultConnection");
                     SeedData.EnsureSeedData(connectionString);
