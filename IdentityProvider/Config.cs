@@ -17,18 +17,17 @@ namespace IdentityProvider
                 new IdentityResources.Profile(),
             };
 
-        // public static IEnumerable<ApiScope> ApiScopes =>
-        //     new ApiScope[]
-        //     {
-        //         new ApiScope("scope1"),
-        //         new ApiScope("scope2"),
-        //     };
-
-        public static IEnumerable<ApiResource> ApiResources =>
-            new ApiResource[]
+        public static IEnumerable<ApiScope> ApiScopes =>
+            new ApiScope[]
             {
-                new ApiResource("api", "API")
+                new ApiScope("api"),
             };
+
+        // public static IEnumerable<ApiResource> ApiResources =>
+        //     new ApiResource[]
+        //     {
+        //         new ApiResource("api", "API")
+        //     };
 
         public static IEnumerable<Client> Clients =>
             new Client[]
@@ -63,6 +62,7 @@ namespace IdentityProvider
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
+                        "api"
                     }
                 }
                 // new Client

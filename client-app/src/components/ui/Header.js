@@ -27,6 +27,8 @@ function Header() {
   const classes = useStyles();
   const { isAuthenticated } = useAuth();
 
+  console.log('rendering header...');
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -39,11 +41,16 @@ function Header() {
           </Typography>
           {
             isAuthenticated()
-            ? <Button color="inherit" to="/login" component={RouterLink} >
-                Login
+            ? <>
+              <Button color="inherit" to="/claims" component={RouterLink} >
+                claims
               </Button>
-            : <Button color="inherit" to="/logout" component={RouterLink} >
-                Logout
+              <Button color="inherit" to="/logout" component={RouterLink} >
+                logout
+              </Button>
+              < />
+            : <Button color="inherit" to="/login" component={RouterLink} >
+                login
               </Button>
           }
         </Toolbar>

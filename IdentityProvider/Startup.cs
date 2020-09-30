@@ -53,13 +53,19 @@ namespace IdentityProvider
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
 
+                // https://stackoverflow.com/questions/53468074/integrating-identity-server-docker-and-mvc-core-web-client
+                if(Environment.IsDevelopment())
+                {
+                    System.Console.WriteLine(Configuration.GetValue<string>("ASPNETCORE_URLS"));
+                    options.IssuerUri = Configuration.GetValue<string>("ASPNETCORE_URLS");
+                }
                 // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
                 options.EmitStaticAudienceClaim = true;
             })
             .AddInMemoryIdentityResources(Config.IdentityResources)
-            // .AddInMemoryApiScopes(Config.ApiScopes)
-            .AddInMemoryApiResources(Config.ApiResources)
+            .AddInMemoryApiScopes(Config.ApiScopes)
             .AddInMemoryClients(Config.Clients)
+            // .AddInMemoryApiResources(Config.ApiResources)
             .AddAspNetIdentity<ApplicationUser>();
 
             // not recommended for production - you need to store your key material somewhere secure

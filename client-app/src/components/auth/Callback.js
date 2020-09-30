@@ -9,16 +9,19 @@ const Callback = () => {
 
     useEffect(() => {
         if(!done){
-            signinCallback().then(user => {
+            signinCallback().then(() => {
                 setDone(true);
             });
         }
     });
     
 
-    return (
-        done && <Redirect to="/" /> 
-    )
+    if(done) {
+        console.log('redirecting');
+        return ( <Redirect to="/" /> )
+    } else {
+        return null;
+    }
 }
 
 export default Callback;

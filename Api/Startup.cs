@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Api
@@ -28,16 +29,16 @@ namespace Api
         {
             services.AddControllers();
 
-
-
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {
-                    options.Authority = "http://localhost:5000";
+                    options.Authority = "http://identityprovider:5000";
+                    // options.Authority = "http://10.0.75.1:5000";
+                    options.RequireHttpsMetadata = false;
                     
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidateAudience = false
+                        ValidateAudience = false,
                     };
                 });
 
@@ -60,6 +61,8 @@ namespace Api
                         .AllowAnyMethod();
                 });
             });
+
+            IdentityModelEventSource.ShowPII = true;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

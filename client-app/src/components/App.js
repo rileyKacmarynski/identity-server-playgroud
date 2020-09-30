@@ -7,22 +7,11 @@ import Login from './auth/Login';
 import Callback from './auth/Callback';
 import Logout from './auth/Logout'
 import Home from './Home';
+import Claims from './Claims';
 import { ProvideAuth } from './auth/hooks';
+import PrivateRoute from './auth/PrivateRoute';
 
 function App() {
-
-  // const mgr = new UserManager(config);
-  // useEffect(() => {
-  //   const fn = async () => {
-  //     const user = await mgr.getUser();
-  //     console.log(user)
-  //     if(user){
-  //     }
-  //   };
-
-  //   fn();
-  // }, [mgr])
-
 
   return (
     <Router>
@@ -38,6 +27,9 @@ function App() {
           <Route path="/callback">
             <Callback />
           </Route>
+          <PrivateRoute path="/claims">
+            <Claims />
+          </PrivateRoute>
           <Route path="/">
             <Home />
           </Route>
