@@ -54,8 +54,7 @@ namespace Api
             {
                 options.AddDefaultPolicy(builder => 
                 {
-                    builder.AllowAnyOrigin();
-                    // .WithOrigins("http://localhost:5001")
+                    builder.WithOrigins("http://localhost:5001");
                     builder.AllowAnyHeader();
                 });
             });
