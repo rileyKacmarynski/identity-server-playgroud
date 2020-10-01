@@ -3,6 +3,7 @@
 
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using IdentityModel;
@@ -23,7 +24,10 @@ namespace IdentityProvider
             services.AddLogging();
             services.AddDbContext<ApplicationDbContext>(options =>
                options.UseSqlServer(connectionString, providerOptions => {
-                   providerOptions.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(90), errorNumbersToAdd: null);
+                   providerOptions.EnableRetryOnFailure(
+                       maxRetryCount: 10, 
+                       maxRetryDelay: TimeSpan.FromSeconds(15), 
+                       errorNumbersToAdd: null);
                }));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()

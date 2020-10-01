@@ -42,14 +42,6 @@ function useProvideAuth(){
  
         fn();
         console.log('in use effect...');
-        // mgr.getUser()
-        //     .then(u => {
-        //         // debugger;
-        //         console.log('grabbing user from store');
-        //         // console.log(u);
-        //         setUser(u);
-        //     });
-
         // eslint-disable-next-line
     }, [])
 

@@ -32,8 +32,7 @@ namespace Api
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {
-                    options.Authority = "http://identityprovider:5000";
-                    // options.Authority = "http://10.0.75.1:5000";
+                    options.Authority = Configuration.GetValue<string>("IDP_URL");
                     options.RequireHttpsMetadata = false;
                     
                     options.TokenValidationParameters = new TokenValidationParameters
@@ -51,14 +50,13 @@ namespace Api
                 });
             });
 
-            services.AddCors(options =>
+            services.AddCors(options => 
             {
-                // this defines a CORS policy called "default"
-                options.AddPolicy("default", policy =>
+                options.AddDefaultPolicy(builder => 
                 {
-                    policy.WithOrigins("http://localhost:5001")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
+                    builder.AllowAnyOrigin();
+                    // .WithOrigins("http://localhost:5001")
+                    builder.AllowAnyHeader();
                 });
             });
 
@@ -73,11 +71,11 @@ namespace Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
 
+            app.UseCors();
             app.UseRouting();
 
-            app.UseCors("default");
 
             app.UseAuthentication();
             app.UseAuthorization();

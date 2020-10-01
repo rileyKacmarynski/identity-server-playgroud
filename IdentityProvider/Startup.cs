@@ -34,7 +34,8 @@ namespace IdentityProvider
             {
                 options.AddDefaultPolicy(builder => 
                 {
-                    builder.WithOrigins("http://localhost:5001", "http://localhost:5002");
+                    builder.AllowAnyOrigin();
+                    // builder.WithOrigins("http://localhost:5001", "http://localhost:5002");
                     builder.AllowAnyHeader();
                 });
             });
@@ -53,12 +54,11 @@ namespace IdentityProvider
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
 
+                options.IssuerUri = Configuration.GetValue<string>("ASPNETCORE_URLS");
                 // https://stackoverflow.com/questions/53468074/integrating-identity-server-docker-and-mvc-core-web-client
-                if(Environment.IsDevelopment())
-                {
-                    System.Console.WriteLine(Configuration.GetValue<string>("ASPNETCORE_URLS"));
-                    options.IssuerUri = Configuration.GetValue<string>("ASPNETCORE_URLS");
-                }
+                // if(Environment.IsDevelopment())
+                // {
+                // }
                 // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
                 options.EmitStaticAudienceClaim = true;
             })

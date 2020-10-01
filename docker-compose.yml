@@ -7,8 +7,25 @@ services:
     build:
       context: .
       dockerfile: IdentityProvider/Dockerfile
+      args:
+        - CMD_ARGS=/seed
     ports:
-      - 5000:80
+      - 5000:5000
+    environment:
+      - ASPNETCORE_URLS=http://+:5000
+    depends_on:
+      - idpdb
+
+  idpdb:
+    image: mcr.microsoft.com/mssql/server:latest
+    user: root
+    environment:
+      SA_PASSWORD: "SecurePass123"
+      ACCEPT_EULA: "Y"
+    ports:
+      - 1610:1433
+    volumes:
+      - mssql-idpdb-prod:/var/opt/mssql
 
   api:
     image: api
@@ -17,6 +34,8 @@ services:
       dockerfile: Api/Dockerfile
     ports:
       - 5002:80
+    environment:
+      - IDP_URL=http://identityprovider:5000
 
   clientapp:
     image: clientapp
@@ -25,3 +44,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - 5001:80
+
+volumes: 
+  mssql-idpdb-prod:
+    driver: local

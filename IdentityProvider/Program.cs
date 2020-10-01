@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Polly;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace IdentityProvider
@@ -48,11 +50,22 @@ namespace IdentityProvider
 
                 if (seed)
                 {
+                    // Log.Information("Waiting for database...");
+                    // Thread.Sleep(TimeSpan.FromSeconds(60));    // give the db some time to spin up
                     Log.Information("Seeding database...");
-                    Task.Delay(TimeSpan.FromSeconds(5));    // give the db some time to spin up
                     var config = host.Services.GetRequiredService<IConfiguration>();
                     var connectionString = config.GetConnectionString("DefaultConnection");
-                    SeedData.EnsureSeedData(connectionString);
+
+                    var policy = Policy.Handle<Microsoft.Data.SqlClient.SqlException>()
+                        .WaitAndRetryForever(
+                            retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),    
+                            (exception, timespan) =>
+                            {
+                                Log.Information($"Retrying seed database.");
+                            });
+
+                    policy.Execute(() => SeedData.EnsureSeedData(connectionString));
+                    
                     Log.Information("Done seeding database.");
                 }
 

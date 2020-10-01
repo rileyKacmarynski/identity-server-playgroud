@@ -40,6 +40,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:5002
+      # when the api hits the idp it has to use the container network address, it can't use localhost
+      - IDP_URL=http://identityprovider:5000 
     volumes:
       - ~/.vsdbg:/remote_debugger:rw
 
