@@ -13,6 +13,9 @@ services:
       - 5000:5000
     environment:
       - ASPNETCORE_URLS=http://+:5000
+      - SPA_URL=http://localhost:5001
+      - SPA_REDIRECT_URL=http://localhost:5001/callback
+      - API_URL=http://localhost:5002
     depends_on:
       - idpdb
 
@@ -36,6 +39,7 @@ services:
       - 5002:80
     environment:
       - IDP_URL=http://identityprovider:5000
+      - SPA_URL=http://localhost:5001
 
   clientapp:
     image: clientapp
@@ -44,6 +48,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - 5001:80
+    environment:
+      - IDP_URL=http://localhost:5000
+      - API_URL=http://localhost:5002
+      - SPA_URL=http://localhost:5001
 
 volumes: 
   mssql-idpdb-prod:

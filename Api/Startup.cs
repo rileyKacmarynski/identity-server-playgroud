@@ -54,7 +54,7 @@ namespace Api
             {
                 options.AddDefaultPolicy(builder => 
                 {
-                    builder.WithOrigins("http://localhost:5001");
+                    builder.WithOrigins(Configuration.GetValue<string>("SPA_URL"));
                     builder.AllowAnyHeader();
                 });
             });

@@ -2,12 +2,12 @@ import React, {useState, useEffect, useContext, createContext} from 'react';
 import { UserManager } from 'oidc-client';
 
 const config = {
-    authority: "http://localhost:5000",
+    authority: process.env.REACT_APP_IDP_URL,
     client_id: "client-app",
-    redirect_uri: "http://localhost:5001/callback",
+    redirect_uri: `${process.env.REACT_APP_SPA_URL}/callback`,
     response_type: "code",
     scope:"openid profile api",
-    post_logout_redirect_uri : "http://localhost:5001",
+    post_logout_redirect_uri : process.env.REACT_APP_SPA_URL,
     response_mode: 'query'
 };
 const mgr = new UserManager(config);

@@ -34,7 +34,9 @@ namespace IdentityProvider
             {
                 options.AddDefaultPolicy(builder => 
                 {
-                    builder.WithOrigins("http://localhost:5001", "http://localhost:5002");
+                    builder.WithOrigins(
+                        Configuration.GetValue<string>("SPA_URL"),
+                        Configuration.GetValue<string>("API_URL"));
                     builder.AllowAnyHeader();
                 });
             });
@@ -63,8 +65,7 @@ namespace IdentityProvider
             })
             .AddInMemoryIdentityResources(Config.IdentityResources)
             .AddInMemoryApiScopes(Config.ApiScopes)
-            .AddInMemoryClients(Config.Clients)
-            // .AddInMemoryApiResources(Config.ApiResources)
+            .AddInMemoryClients(Config.Clients(Configuration))
             .AddAspNetIdentity<ApplicationUser>();
 
             // not recommended for production - you need to store your key material somewhere secure

@@ -5,7 +5,7 @@ import { useApi } from '../hooks/useApi';
 
 function Home() {
     const { user } = useAuth();
-    const url = "http://localhost:5002/WeatherForecast";
+    const url = `${process.env.REACT_APP_API_URL}/WeatherForecast`;
     const { isLoading, isError, data } = useApi(url, []);
 
     const weatherSummary = data.length > 0 && <p>The weather today is {data[0].summary}.</p>
